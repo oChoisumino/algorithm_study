@@ -30,7 +30,7 @@ void append_tail(Node **head, Node *node)
     }
 }
 
-void append_node(Node **node, Node *new_node)
+void append_after(Node **node, Node *new_node)
 {
     if (*node == NULL) {
         *node = new_node;
@@ -40,6 +40,22 @@ void append_node(Node **node, Node *new_node)
         prev_node->next_node = new_node;
     }
 }
+
+/*vitamin Quiz : insert before 함수 추가하기*/
+void append_before(Node **head, Node *current, Node *new_node)
+{
+    if (*head == NULL) {
+        *head = new_node;
+    } else {
+        Node *find_node = *head;
+        while(find_node->next_node != current) {
+            find_node = find_node->next_node;
+        }
+        append_after(&find_node, new_node);
+
+    }
+}
+
 
 Node *find_node_with_data(Node *head, int data)
 {
@@ -109,7 +125,23 @@ void delete_node(Node **head, Node *node)
         destroy_node(node);
 
     }
+}
 
+/*vitamin Quiz : destroy all nodes 함수 추가하기*/
+void delete_all(Node **head)
+{
+    if (head == NULL) {
+        printf("none of nodes exist in linked list");
+    } else {
+        Node *node = *head;
+        Node *delete_node = NULL;
+        while(node != NULL) {
+            delete_node = node;
+            node = node->next_node;
+            destroy_node(delete_node);
+        }
+        *head = NULL;
+    }
 }
 
 static void insert_flow(int num, Node **head) 
@@ -124,7 +156,7 @@ static void insert_flow(int num, Node **head)
 
     if (num == 1) { //insert tail
         append_tail(head, node);
-    } else if (num == 2) { // insert with index
+    } else if (num == 2) { // insert with index after node
         int index = 0;
         Node *find_node = NULL;
         printf("index val : ");
@@ -132,7 +164,7 @@ static void insert_flow(int num, Node **head)
 
         find_node = find_node_with_index(*head, index);
 
-        append_node(&find_node, node);
+        append_after(&find_node, node);
     } else if (num == 3) { //insert after the desired data
         int find_data = 0;
         Node *find_node = NULL;
@@ -142,7 +174,15 @@ static void insert_flow(int num, Node **head)
 
         find_node = find_node_with_data(*head, find_data);
 
-        append_node(&find_node, node);
+        append_after(&find_node, node);
+    } else if (num == 4) {// insert with index before node
+        int index = 0;
+        Node *find_node = NULL;
+        printf("index vall : ");
+        scanf("%d", &index);
+
+        find_node = find_node_with_index(*head, index);
+        append_before(head, find_node, node);
     } else {
         printf("incorrect input! \n");
     }
@@ -179,18 +219,20 @@ static void delete_flow(int num, Node **head)
 }
 int main(void)
 {
-    int num = 0;
     Node *head = NULL;
 
     while(1) {
+    int num = 0;
+
     printf("1. insert node, 2. delete node 3. print \n");
     printf("Enter another number if you want to quit \n");
     printf("Number : ");
     scanf("%d", &num);
         if (num == 1) {
             printf("1. insert tail \n");
-            printf("2. insert with index \n");
+            printf("2. insert with index(after node) \n");
             printf("3. insert after the desired data \n");//중복될 경우는 맨 앞 데이터를 기준으로 find
+            printf("4. insert with index(befire node) \n");
             printf("Number : ");
             scanf("%d", &num);
             insert_flow(num, &head);
@@ -212,5 +254,6 @@ int main(void)
             break;
         }
     }
+    delete_all(&head);
     return 0;
 }

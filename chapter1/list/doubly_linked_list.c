@@ -182,12 +182,31 @@ static void delete_flow(int num, Node **head)
         printf("incorrect input! \n");
     }
 }
+/*vitamin Quiz : 더블링크드 리스트를 역순으로 출력*/
+static void print_nodes(Node *head) {
+    Node *node = head;
+
+    if (head == NULL) {
+        printf("none of nodes exist");
+    }
+
+    while(node->next_node != NULL) {
+        node = node->next_node;
+    }
+
+    while(node != NULL) {
+        printf("data : %d \n", node->data);
+        node = node->prev_node;
+    }
+}
+
 int main(void)
 {
-    int num = 0;
     Node *head = NULL;
 
     while(1) {
+    int num = 0;
+
     printf("1. insert node, 2. delete node 3. print \n");
     printf("Enter another number if you want to quit \n");
     printf("Number : ");
@@ -207,11 +226,12 @@ int main(void)
             scanf("%d", &num);
             delete_flow(num, &head);
         } else if (num == 3) {
-            Node *node = head;
-            while(node != NULL) {
-                printf("%d === \n", node->data);
-                node = node->next_node;
-            }
+//            Node *node = head;
+//            while(node != NULL) {
+//                printf("%d === \n", node->data);
+//                node = node->next_node;
+//            }
+            print_nodes(head);
         } else {
             printf("invalid number ... ");
             break;
