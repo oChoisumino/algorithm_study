@@ -1,9 +1,10 @@
 #ifndef PRIORITY_QUEUE_H
 #define PRIORITY_QUEUE_H
-
+#include "huffman.h"
 typedef struct _PQNode {
     int priority;
-    HuffmanNode data;
+    HuffmanNode *data;
+    //char data[8];
 } PQNode;
 
 typedef struct _PriorityQueue {
